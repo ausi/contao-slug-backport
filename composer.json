@@ -1,0 +1,28 @@
+{
+    "name": "ausi/contao-slug-backport",
+    "description": "Backport of the slug handling from Contao 4.5 to 4.4",
+    "type": "contao-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Auswöger",
+            "email": "martin@auswoeger.com"
+        }
+    ],
+    "require": {
+        "contao/core-bundle": "4.4.*",
+        "ausi/slug-generator": "^1.0"
+    },
+    "conflict": {
+        "contao/core": "*",
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "autoload":{
+        "psr-4": {
+            "Ausi\\ContaoSlugBackport\\": "src/"
+        }
+    },
+    "extra":{
+        "contao-manager-plugin": "Ausi\\ContaoSlugBackport\\ContaoManagerPlugin"
+    }
+}
