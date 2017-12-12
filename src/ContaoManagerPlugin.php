@@ -2,7 +2,11 @@
 
 namespace Ausi\ContaoSlugBackport;
 
+use Contao\CalendarBundle\ContaoCalendarBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
+use Contao\FaqBundle\ContaoFaqBundle;
+use Contao\NewsBundle\ContaoNewsBundle;
+use Contao\NewsletterBundle\ContaoNewsletterBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
@@ -16,7 +20,13 @@ class ContaoManagerPlugin implements BundlePluginInterface
 	{
 		return [
 			BundleConfig::create(ContaoSlugBackportBundle::class)
-				->setLoadAfter([ContaoCoreBundle::class]),
+				->setLoadAfter([
+					ContaoCalendarBundle::class,
+					ContaoCoreBundle::class,
+					ContaoFaqBundle::class,
+					ContaoNewsBundle::class,
+					ContaoNewsletterBundle::class,
+				]),
 		];
 	}
 }
