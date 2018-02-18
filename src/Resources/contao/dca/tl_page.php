@@ -9,7 +9,10 @@ if (isset($GLOBALS['TL_DCA']['tl_page']['fields']['alias']['save_callback'])) {
 	}
 }
 
-$GLOBALS['TL_DCA']['tl_page']['palettes']['root'] = str_replace(';{sitemap_legend', ',validAliasCharacters;{sitemap_legend', $GLOBALS['TL_DCA']['tl_page']['palettes']['root']);
+PaletteManipulator::create()
+	->addField('validAliasCharacters', 'global_legend', PaletteManipulator::POSITION_APPEND)
+	->applyToPalette('root', 'tl_page')
+;
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['validAliasCharacters'] = array(
 	'label' => &$GLOBALS['TL_LANG']['tl_page']['validAliasCharacters'],
