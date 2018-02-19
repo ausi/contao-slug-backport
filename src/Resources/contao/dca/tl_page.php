@@ -1,5 +1,7 @@
 <?php
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+
 if (isset($GLOBALS['TL_DCA']['tl_page']['fields']['alias']['save_callback'])) {
 	foreach($GLOBALS['TL_DCA']['tl_page']['fields']['alias']['save_callback'] as $key => $callback) {
 		if (is_array($callback) && $callback[0] === 'tl_page' && $callback[1] === 'generateAlias') {
