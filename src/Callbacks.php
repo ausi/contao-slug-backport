@@ -33,7 +33,10 @@ class Callbacks
 			$slugOptions['validChars'] = $validAliasCharacters;
 		}
 
-		$varValue = System::getContainer()->get('contao.slug.generator')->generate(StringUtil::stripInsertTags($dc->activeRecord->title), $slugOptions);
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->title), $slugOptions)
+		;
 
 		if (Config::get('folderUrl') && $objPage->folderUrl != '')
 		{
@@ -71,7 +74,10 @@ class Callbacks
 			}
 		}
 
-		$varValue = System::getContainer()->get('contao.slug.generator')->generate(StringUtil::stripInsertTags($dc->activeRecord->headline), $slugOptions);
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->headline), $slugOptions)
+		;
 
 		try {
 			$varValue = System::importStatic('tl_news')->generateAlias($varValue, $dc);
@@ -104,7 +110,10 @@ class Callbacks
 			}
 		}
 
-		$varValue = System::getContainer()->get('contao.slug.generator')->generate(StringUtil::stripInsertTags($dc->activeRecord->title), $slugOptions);
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->title), $slugOptions)
+		;
 
 		try {
 			$varValue = System::importStatic('tl_calendar_events')->generateAlias($varValue, $dc);
@@ -137,7 +146,10 @@ class Callbacks
 			}
 		}
 
-		$varValue = System::getContainer()->get('contao.slug.generator')->generate(StringUtil::stripInsertTags($dc->activeRecord->question), $slugOptions);
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->question), $slugOptions)
+		;
 
 		try {
 			$varValue = System::importStatic('tl_faq')->generateAlias($varValue, $dc);
@@ -170,7 +182,10 @@ class Callbacks
 			}
 		}
 
-		$varValue = System::getContainer()->get('contao.slug.generator')->generate(StringUtil::stripInsertTags($dc->activeRecord->subject), $slugOptions);
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->subject), $slugOptions)
+		;
 
 		try {
 			$varValue = System::importStatic('tl_newsletter')->generateAlias($varValue, $dc);
@@ -180,5 +195,14 @@ class Callbacks
 		}
 
 		return $varValue;
+	}
+
+	private function prepareSlug($strSlug)
+	{
+		$strSlug = StringUtil::stripInsertTags($strSlug);
+		$strSlug = StringUtil::restoreBasicEntities($strSlug);
+		$strSlug = StringUtil::decodeEntities($strSlug);
+
+		return $strSlug;
 	}
 }
