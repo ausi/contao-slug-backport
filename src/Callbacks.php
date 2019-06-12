@@ -197,6 +197,72 @@ class Callbacks
 		return $varValue;
 	}
 
+	public function articleGenerateAlias($varValue, DataContainer $dc)
+	{
+		// Skip if an explicit alias is set
+		if ($varValue) {
+			return System::importStatic('tl_article')->generateAlias($varValue, $dc);
+		}
+
+		$slugOptions = [];
+
+		// Read the slug options from the associated page
+		if (($objPage = PageModel::findWithDetails($dc->activeRecord->pid)) !== null) {
+			$slugOptions['locale'] = $objPage->language;
+			if ($validAliasCharacters = PageModel::findByPk($objPage->rootId)->validAliasCharacters)
+			{
+				$slugOptions['validChars'] = $validAliasCharacters;
+			}
+		}
+
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->title), $slugOptions)
+		;
+
+		try {
+			$varValue = System::importStatic('tl_article')->generateAlias($varValue, $dc);
+		}
+		catch(\Exception $e) {
+			$varValue .= '-' . $dc->id;
+		}
+
+		return $varValue;
+	}
+
+	public function formGenerateAlias($varValue, DataContainer $dc)
+	{
+		// Skip if an explicit alias is set
+		if ($varValue) {
+			return System::importStatic('tl_form')->generateAlias($varValue, $dc);
+		}
+
+		$slugOptions = [];
+
+		// Read the slug options from the associated page
+		if (($objPage = PageModel::findWithDetails($dc->activeRecord->jumpTo)) !== null) {
+			$slugOptions['locale'] = $objPage->language;
+			if ($validAliasCharacters = PageModel::findByPk($objPage->rootId)->validAliasCharacters)
+			{
+				$slugOptions['validChars'] = $validAliasCharacters;
+			}
+		}
+
+		$varValue = System::getContainer()
+			->get('contao.slug.generator')
+			->generate($this->prepareSlug($dc->activeRecord->title), $slugOptions)
+		;
+
+		try {
+			$varValue = System::importStatic('tl_form')->generateAlias($varValue, $dc);
+		}
+		catch(\Exception $e) {
+			$varValue .= '-' . $dc->id;
+		}
+
+		return $varValue;
+	}
+
 	private function prepareSlug($strSlug)
 	{
 		$strSlug = StringUtil::stripInsertTags($strSlug);
