@@ -240,7 +240,7 @@ class Callbacks
 		$slugOptions = [];
 
 		// Read the slug options from the associated page
-		if (($objPage = PageModel::findWithDetails($dc->activeRecord->jumpTo)) !== null) {
+		if (($objPage = PageModel::findWithDetails(Input::post('jumpTo') ?: $dc->activeRecord->jumpTo)) !== null) {
 			$slugOptions['locale'] = $objPage->language;
 			if ($validAliasCharacters = PageModel::findByPk($objPage->rootId)->validAliasCharacters)
 			{
