@@ -7,6 +7,7 @@ use Contao\Config;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\DataContainer;
 use Contao\FaqCategoryModel;
+use Contao\Input;
 use Contao\NewsArchiveModel;
 use Contao\NewsletterChannelModel;
 use Contao\PageModel;
